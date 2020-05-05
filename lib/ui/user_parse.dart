@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http_example/model/user.dart';
 import 'package:http_example/model/user_list.dart';
+import 'package:http_example/ui/user_detail.dart';
 import 'package:http_example/util/network.dart';
 
 class UserParse extends StatefulWidget {
@@ -48,7 +49,6 @@ class _UserParseState extends State<UserParse> {
                   builder: (context, AsyncSnapshot<UserList> snapshot) {
                     if (snapshot.hasData) {
                       return createListView(context, snapshot.data.users);
-                      // return Text(snapshot.data.users.toString());
                     } else {
                       return Center(child: CircularProgressIndicator());
                     }
@@ -72,9 +72,11 @@ class _UserParseState extends State<UserParse> {
             title: Text(data[index].username),
             subtitle: Text(data[index].email),
             trailing: Icon(Icons.arrow_forward),
-            onTap: () => debugPrint("hai"),
-          ),
-        );
+            onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context){
+              return UserDetail(userId: data[index].id);
+            },
+            ))),
+          );
       },
     );
   }
